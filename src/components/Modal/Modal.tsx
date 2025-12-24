@@ -4,9 +4,10 @@ import { useEffect } from "react";
 
 interface ModalProps {
   onClose: () => void;
+  children: React.ReactNode;
 }
 
-export default function Modal({ onClose }: ModalProps) {
+export default function Modal({ onClose, children }: ModalProps) {
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -36,7 +37,7 @@ export default function Modal({ onClose }: ModalProps) {
       aria-modal="true"
       onClick={handleBackdropClick}
     >
-      <div className={css.modal}>{/* */}</div>
+      <div className={css.modal}>{children}</div>
     </div>,
     document.body
   );
