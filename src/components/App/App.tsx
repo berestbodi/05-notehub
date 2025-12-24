@@ -4,7 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { createNote, deleteNote, fetchNotes } from "../../servises/noteService";
+import { createNote, deleteNote, fetchNotes } from "../../services/noteService";
 import css from "./App.module.css";
 import { useState } from "react";
 import NoteList from "../NoteList/NoteList";
