@@ -22,7 +22,13 @@ export default function App() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox query={query} setQuery={setQuery} setPage={setCurrentPage} />
+        <SearchBox
+          query={query}
+          setState={(query: string, page: number) => {
+            setQuery(query);
+            setCurrentPage(page);
+          }}
+        />
 
         {data && data.totalPages > 1 && (
           <Pagination
