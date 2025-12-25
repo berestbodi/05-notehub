@@ -1,10 +1,11 @@
 import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from "formik";
 import * as Yup from "yup";
 import css from "./NoteForm.module.css";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNote } from "../../services/noteService";
 
 interface NoteFormProps {
   onClose: () => void;
-  onSubmit: (values: CreateNoteFormValues) => void;
 }
 
 export interface CreateNoteFormValues {
@@ -32,12 +33,21 @@ const Schema = Yup.object().shape({
     .required("Tag is required"),
 });
 
-export default function NoteForm({ onClose, onSubmit }: NoteFormProps) {
+export default function NoteForm({ onClose }: NoteFormProps) {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (data: CreateNoteFormValues) => createNote(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
+
   const handleSubmit = (
     values: CreateNoteFormValues,
     actions: FormikHelpers<CreateNoteFormValues>
   ) => {
-    onSubmit(values);
+    mutate(values);
     actions.resetForm();
     onClose();
   };

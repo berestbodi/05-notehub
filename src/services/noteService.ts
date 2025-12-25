@@ -28,14 +28,25 @@ export async function fetchNotes(
   return res.data;
 }
 
-export async function createNote(values: CreateNoteFormValues) {
-  const res = axios.post(url, values, { ...options });
-
-  return res;
+interface NoteProps {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  tag: string;
 }
 
-export async function deleteNote(id: string) {
-  const res = axios.delete(url + `/${id}`, { ...options });
+export async function createNote(
+  values: CreateNoteFormValues
+): Promise<NoteProps> {
+  const res = await axios.post<NoteProps>(url, values, { ...options });
 
-  return res;
+  return res.data;
+}
+
+export async function deleteNote(id: string): Promise<NoteProps> {
+  const res = await axios.delete<NoteProps>(url + `/${id}`, { ...options });
+
+  return res.data;
 }
